@@ -61,10 +61,11 @@
         LIKE	'%12-25'
         ORDER BY hire_date
         LIMIT 5
-        OFFSET 50;
+        OFFSET 45;
         
-	/*	Christophe	Baca
-		Moie		Birask
-        Chikako		Ibel
-        Shounak		Jansen
-        Zhigen		Boissier
+	/*	Pranay	Narwkar
+		Marjo	Farrow
+        Ennio	Karcich
+        Dines 	Lubachevsky
+        Ipke 	Fontan
+        */

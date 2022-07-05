@@ -110,6 +110,7 @@
         AND 	birth_date LIKE '%12-25'
         ORDER BY hire_date;
 	-- 362 rows returned
+    -- SELECT 135214 / 365; -- 370
         
 /*	11.	Find all current or previous employees 
 		with a 'q' in their last name. 
