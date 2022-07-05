@@ -8,15 +8,12 @@ USE albums_db;
 
 -- 3. 	Explore the structure of the albums table.
 	-- a. 	How many rows are in the albums table?
-    
 SHOW TABLES;
-
---  1 row
+SELECT * FROM albums; -- ORDER BY release_date;
+--  31 rows
 
 	-- b. 	How many unique artist names are in the albums table?
-
-SELECT DISTINCT artist FROM albums;
-
+SELECT COUNT(DISTINCT artist) AS number_of_artists FROM albums;
 -- 23 unique artist names
 
 	-- c. 	What is the Primary Key for the albums table?
@@ -25,44 +22,28 @@ DESCRIBE albums;
 
 	-- d. 	What is the oldest release date for any album in the albums table? 
     -- 	  	What is the most recent release date?
-SELECT * FROM albums WHERE release_date < 2000 ORDER BY release_date;
-
+SELECT MIN(release_date) FROM albums;
 -- 1967 - The Beatles - Sgt. Pepper's Lonely Hearts Club Band
-/*  Wrong answer comments:
-01:01:29	SELECT * FROM release_date WHERE release_date < 2000 
-LIMIT 0, 1000	Error Code: 1146. Table 'albums_db.release_date' doesn't exist	0.046 sec
 
-
-/*00:52:37	SELECT * release_date;	
-Error Code: 1064. You have an error in your SQL syntax; 
-check the manual that corresponds to your MySQL server version for the right syntax to use near 
-'release_date' at line 1	0.050 sec
-
-	SHOW * release_date FROM albums;
-	  16:55:40	SHOW * release_date FROM albums	
-
-Error Code: 1064. You have an error in your SQL syntax; 
-check the manual that corresponds to your MySQL server version 
-for the right syntax to use near '* release_date FROM albums' 
-at line 1	
-0.044 sec
-*/
-
-SELECT * FROM albums WHERE release_date >= 2000 ORDER BY release_date;
+SELECT MAX(release_date) FROM albums;
 -- 2011 - Adele - 21
+
+-- Another way to do this would be: 
+-- [Uncomment the line below to see a Reslut Grid with all albums listed from earliest to latest]
+-- SELECT * FROM albums ORDER BY release_date;
 
 -- 4. Write queries to find the following information:
 	-- a. The name of all albums by Pink Floyd
-SELECT * FROM albums WHERE artist = 'Pink Floyd';
+SELECT name FROM albums WHERE artist = 'Pink Floyd';
 -- The Dark Side of the Moon 
 -- The Wall
 
 	-- b. The year Sgt. Pepper's Lonely Hearts Club Band was released
-SELECT * FROM albums WHERE name = 'Sgt. Pepper\'s Lonely Hearts Club Band';
+SELECT release_date FROM albums WHERE name = 'Sgt. Pepper\'s Lonely Hearts Club Band';
 -- 1967
 
 	-- c. The genre for the album Nevermind
-SELECT * FROM albums WHERE name = 'Nevermind';
+SELECT genre FROM albums WHERE name = 'Nevermind';
 -- Grunge, Alternative Rock
 
 	-- d. Which albums were released in the 1990s
@@ -96,12 +77,14 @@ SELECT name FROM albums WHERE sales < 20 ORDER BY name;
     The Wall
     Titanic: Music from the Motion Picture
 */
+-- The below gives a perhaps more usefull Results Grid with each album under 20M in sales ordered by sales
+SELECT name, sales FROM albums WHERE sales < 20 ORDER BY sales;
 
 	-- f. All the albums with a genre of "Rock". 
     --    Why do these query results not include albums with 
     --    a genre of "Hard rock" or "Progressive rock"?
  
- SELECT * FROM albums WHERE genre = 'Rock';
+ SELECT name FROM albums WHERE genre = 'Rock';
  /* 
 	Sgt. Pepper's Lonely Hearts Club Band
 	1
@@ -114,7 +97,7 @@ SELECT name FROM albums WHERE sales < 20 ORDER BY name;
     If you want to include those...
     */
 
-SELECT * FROM albums WHERE genre = 'Rock' OR genre = 'Progressive rock' OR genre = 'Hard rock';
+SELECT name FROM albums WHERE genre = 'Progressive rock' OR genre = 'Hard rock';
 
 /*
 	Additional Albums are:
