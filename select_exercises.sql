@@ -48,6 +48,7 @@ SELECT genre FROM albums WHERE name = 'Nevermind';
 
 	-- d. Which albums were released in the 1990s
 SELECT name FROM albums WHERE release_date >= 1990 AND release_date < 2000 ORDER BY release_date;
+SELECT name FROM albums WHERE release_date BETWEEN 1990 AND 1999 ORDER BY release_date;
 /* 	The Immaculate Collection
 	Dangerous
 	Metallica
@@ -85,6 +86,7 @@ SELECT name, sales FROM albums WHERE sales < 20 ORDER BY sales;
     --    a genre of "Hard rock" or "Progressive rock"?
  
  SELECT name FROM albums WHERE genre = 'Rock';
+
  /* 
 	Sgt. Pepper's Lonely Hearts Club Band
 	1
@@ -107,3 +109,7 @@ SELECT name FROM albums WHERE genre = 'Progressive rock' OR genre = 'Hard rock';
     The Wall
     Appetitite for Destruction
     */
+    
+SELECT name, genre FROM albums WHERE genre LIKE '%Rock%';
+-- The above shows us everything with 'Rock' in genre anywhere
+
