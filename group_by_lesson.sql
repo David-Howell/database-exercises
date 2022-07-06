@@ -10,36 +10,42 @@
 	Using the GROUP BY clause
 		GROUP BY specifies a column or columns to group by.
 
-
 		SELECT column FROM table GROUP BY column_name;
 /*
 	GROUP BY returns only the unique occurrences of the column specified.
+*/
+
+		SELECT DISTINCT first_name
+		FROM employees;
+/*
+	The above query should return the same result set as:
 
 
-SELECT DISTINCT first_name
-FROM employees;
-The above query should return the same result set as:
+		SELECT first_name
+		FROM employees
+		GROUP BY first_name;
+/*	
+    You can specify ASC or DESC for our output by adding an ORDER BY to your clause after the GROUP BY.
 
 
-SELECT first_name
-FROM employees
-GROUP BY first_name;
-You can specify ASC or DESC for our output by adding an ORDER BY to your clause after the GROUP BY.
+		SELECT first_name
+		FROM employees
+		GROUP BY first_name 
+		ORDER BY first_name DESC;
+/*	
+    We can also use multiple columns:
 
 
-SELECT first_name
-FROM employees
-GROUP BY first_name 
-ORDER BY first_name DESC;
-We can also use multiple columns:
+		SELECT last_name, first_name
+		FROM employees
+		GROUP BY last_name, first_name;
+/*
+	The above query will return all of the unique combinations of 
+		first and last names, 
+        grouped by thier last name sorted alphebetically, 
+        and within each last name group.
 
-
-SELECT last_name, first_name
-FROM employees
-GROUP BY last_name, first_name
-The above query will return all of the unique combinations of first and last names, grouped by thier last name sorted alphebetically, and within each last name group.
-
-Any column(s) that appear in the SELECT should also be in the GROUP BY clause unless they have a 1-to-1 relationship or are at the same level of granularity.
+	Any column(s) that appear in the SELECT should also be in the GROUP BY clause unless they have a 1-to-1 relationship or are at the same level of granularity.
 
 Aggregate Functions
 The functions we have seen so far look at data in a single column or possibly across an entire row. An aggregate function works with data across all the rows in our result set. There are many aggregate functions listed in the MySQL documentation page. COUNT() is the most commonly used, and that is the one we will be taking a look at here. Other useful aggregate functions include MIN, MAX, AVG, and SUM.
