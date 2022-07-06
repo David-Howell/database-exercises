@@ -27,9 +27,9 @@ ON users.role_id = roles.id;
 -- The Null values from the users.role_id and the Value from roles.id that don't have a match are both dropped
 
 SELECT users.name, roles.name, role_id
-FROM users AS u
+FROM users
 -- join all fields
-JOIN roles AS r
+JOIN roles
 -- how do we want to make that connection
 ON users.role_id = roles.id;
 
