@@ -34,9 +34,9 @@
 
 /*	5.	Find the smallest and largest current salary from the salaries table.
 		*/
-        SELECT MIN(salary) FROM salaries;
+        SELECT MIN(salary) FROM salaries WHERE to_date >= NOW();
 	-- $38,623
-		SELECT MAX(salary) FROM salaries;
+		SELECT MAX(salary) FROM salaries WHERE to_date >= NOW();
 	-- $158,220
 
 /*	6.	Use your knowledge of built in SQL functions to generate a 

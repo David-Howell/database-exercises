@@ -36,13 +36,33 @@ SELECT * FROM film;
 SELECT title, description, rating, length FROM film WHERE length >= (3*60);
 /*
 Select the payment id, amount, and payment date columns from the payments table for payments made on or after 05/27/2005.*/
-SELECT * FROM payment;
-SELECT payment_id, amount, payment_date FROM payment WHERE payment_date >= '2005-05-27' ORDER BY payment_date;
+	SELECT * FROM payment;
+	SELECT 	payment_id, 
+			amount, 
+			payment_date 
+		FROM 	payment 
+        WHERE 	payment_date >= '2005-05-27' 
+	ORDER BY 	payment_date;
 /*
 Select the primary key, amount, and payment date columns from the payment table for payments made on 05/27/2005.*/
 DESCRIBE payment;
 -- SELECT payment_id, amount, payment_date FROM payment WHERE payment_date = '2005-05-27 *';
-SELECT payment_id, amount, payment_date FROM payment WHERE payment_date >= '2005-05-27' AND payment_date < '2005-05-28';
+	SELECT 	payment_id, 
+			amount, 
+            payment_date 
+		FROM 	payment 
+        WHERE 	payment_date >= '2005-05-27' 
+        AND 	payment_date < '2005-05-28';
+        
+	SELECT 	payment_id, 
+			amount, 
+            payment_date 
+		FROM 	payment 
+		WHERE	payment_date
+        BETWEEN	'2005-05-27'
+        AND 	'2005-05-28'
+	ORDER BY 	payment_date;
+        
 /*
 Select all columns from the customer table for rows that have a last names beginning with S and a first names ending with N.*/
 -- SELECT * FROM customer WHERE last_name + ' ' + first_name LIKE 'S%n';
@@ -55,9 +75,18 @@ Select all columns from the category table for rows where the primary key is gre
 DESCRIBE category;
 -- SELECT * FROM category WHERE category_id > 4 AND name LIKE '^[C|S|T]';
 SELECT * FROM category WHERE category_id > 4 AND (name LIKE 'C%' OR name LIKE 'S%' OR name LIKE 'T%');
-/*
-Select all columns minus the password column from the staff table for rows that contain a password.
-Select all columns minus the password column from the staff table for rows that do not contain a password.
+/*	Select all columns minus the password column 
+		from the staff table 
+        for rows that contain a password.
+		*/
+        -- CREATE TEMPORARY TABLE tempstaff AS -- Can't CREATE TABLE with my permissions
+        SELECT *
+        FROM staff
+        WHERE password IS NOT NULL;
+        SELECT * FROM tempstaff;
+        
+
+/*	Select all columns minus the password column from the staff table for rows that do not contain a password.
 IN operator
 
 Select the phone and district columns from the address table for addresses in California, England, Taipei, or West Java.
