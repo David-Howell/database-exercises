@@ -450,7 +450,8 @@ Create a file named join_exercises.sql to do your work in.
         JOIN departments d
         ON d.dept_no = de.dept_no
         GROUP BY de.dept_no
-        ) msal
+        ) 
+        msal
         JOIN
         (
         SELECT e.emp_no eno, s.salary sal, e.first_name efn, e.last_name eln, de.dept_no dno
@@ -459,7 +460,8 @@ Create a file named join_exercises.sql to do your work in.
         ON s.emp_no = e.emp_no AND s.to_date > NOW()
         JOIN dept_emp de
         ON de.emp_no = s.emp_no
-        ) ei
+        ) 
+        ei
         ON msal.sal = ei.sal AND msal.dno = ei.dno
         ORDER BY msal.dno
         ;
