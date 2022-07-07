@@ -172,17 +172,10 @@ Create a file named join_exercises.sql to do your work in.
 
 		5.	Find the current salary of all current managers.*/
         
-        SELECT *
-        FROM salaries
-        WHERE to_date > NOW()
-        ;
-		SELECT *
-        FROM dept_manager
-        WHERE to_date > NOW()
-        ;
-		SELECT *
-        FROM employees
-        ;
+        SELECT * FROM salaries WHERE to_date > NOW();
+		SELECT * FROM dept_manager WHERE to_date > NOW();
+		SELECT * FROM employees;
+        
         SELECT d.dept_name Department_Name, CONCAT(e.first_name, ' ', e.last_name) Name, s.salary Salary
         FROM dept_manager dm
         JOIN salaries s
@@ -209,13 +202,9 @@ Create a file named join_exercises.sql to do your work in.
 
 		6.	Find the number of current employees in each department.*/
         
-        SELECT *
-        FROM departments
-        ;
-        SELECT *
-        FROM dept_emp
-        WHERE to_date > NOW()
-        ;
+        SELECT * FROM departments        ;
+        SELECT * FROM dept_emp WHERE to_date > NOW()        ;
+        
         SELECT d.dept_no,
 				d.dept_name,
                 COUNT(de.emp_no) num_employees
@@ -244,10 +233,7 @@ Create a file named join_exercises.sql to do your work in.
 		+---------+--------------------+---------------+
 		7.	Which department has the highest average salary? Hint: Use current not historic information.*/
         
-        SELECT *
-        FROM salaries s
-        WHERE s.to_date > NOW()
-        ;
+        SELECT * FROM salaries s WHERE s.to_date > NOW();
         -- salaries has the salary and to_date with the emp_no
         -- dept_emp has the emp_no and the dept_no
         -- departments has the dept_no and the dept_name
@@ -289,11 +275,11 @@ Create a file named join_exercises.sql to do your work in.
         ;
         SELECT CONCAT(e.first_name,' ',e.last_name) Highest_paid_emp, s.salary Money
         FROM dept_emp de 
-        JOIN salaries s 
-        ON de.emp_no = s.emp_no AND de.to_date > NOW() AND de.dept_no LIKE '%1'
-        JOIN employees e
-        ON s.emp_no = e.emp_no AND s.to_date > NOW()
-        ORDER BY s.salary DESC
+			JOIN salaries s 
+				ON de.emp_no = s.emp_no AND de.to_date > NOW() AND de.dept_no LIKE '%1'
+			JOIN employees e
+				ON s.emp_no = e.emp_no AND s.to_date > NOW()
+		ORDER BY s.salary DESC
         LIMIT 1
         ;
 
@@ -362,7 +348,7 @@ Create a file named join_exercises.sql to do your work in.
 			+--------------------+----------------+
 			| Human Resources    | 55575          |
 			+--------------------+----------------+
-			Bonus Find the names of all current employees, their department name, and their current manager's name.*/
+		11.	Bonus Find the names of all current employees, their department name, and their current manager's name.*/
             
             SELECT * FROM employees e;
             SELECT * FROM dept_emp de 		WHERE de.to_date > NOW();
@@ -413,8 +399,9 @@ Create a file named join_exercises.sql to do your work in.
 			 Huan Lortz   | Customer Service | Yuchang Weedman
 
  .....
-		Bonus Who is the highest paid employee within each department.*/
-        /*
+		12. Bonus Who is the highest paid employee within each department.*/
+/*
+
 		SELECT 	d.dept_name Department,
 				d.dept_no,
 				CONCAT(e.first_name,' ',e.last_name) Employee,
@@ -429,20 +416,32 @@ Create a file named join_exercises.sql to do your work in.
         GROUP BY Department, Employee
         ;
         */
-        (
+        
         SELECT * FROM departments d;
         SELECT * FROM salaries s WHERE s.to_date >NOW();
         SELECT * FROM dept_emp de WHERE de.to_date >NOW();
         SELECT * FROM employees e ;
-        )
+ /*       
+        SELECT CONCAT(e.first_name,' ',e.last_name) name, d.dept_name Department, s.salary
+        FROM employees e
+        JOIN dept_emp de
+        ON de.emp_no = e.emp_no AND de.to_date > NOW()
+        JOIN salaries s
+        ON s.emp_no = de.emp_no AND s.to_date > NOW()
+        JOIN departments d
+        ON de.dept_no = d.dept_no
+        GROUP BY name, Department, s.salary
+        HAVING MAX(s.salary)
+        ;*/
         
         SELECT msal.dept Department, CONCAT(ei.efn,' ',ei.eln) Employee, msal.sal Makes
         FROM
         (
+        /*
         -- My first sub query JOINs the salaries, dept_emp, and departments TABLES
         -- We JOIN ON emp_no AND make sure the dept_emp's are current [>NOW()]
         -- This allows us to easily GROUP BY departments and get the MAX salaries for each
-        -- The first subquery returns a table with 9 rows, 1 for each department
+        -- The first subquery returns a table with 9 rows, 1 for each department*/
         SELECT de.dept_no dno, MAX(s.salary) sal, d.dept_name dept
         FROM salaries s
         JOIN dept_emp de
@@ -454,9 +453,10 @@ Create a file named join_exercises.sql to do your work in.
         msal
         JOIN
         (
+        /*
         -- We then JOIN the First subquery to a second subquery
         -- The second subquery JOINs salaries, employees, and dept_emp
-        -- From this we select the matching emp_no, salary, employees names and dept_no
+        -- From this we select the matching emp_no, salary, employees names and dept_no */
         SELECT e.emp_no eno, s.salary sal, e.first_name efn, e.last_name eln, de.dept_no dno
         FROM salaries s
         JOIN employees e
@@ -464,8 +464,9 @@ Create a file named join_exercises.sql to do your work in.
         JOIN dept_emp de
         ON de.emp_no = s.emp_no
         ) 
-        ei
-        -- We inner JOIN the subquery's results on matching salarys AND where the dept_no's also match
+        ei	/*
+        -- We inner JOIN the subquery's results on matching salarys AND where the dept_no's also match */
         ON msal.sal = ei.sal AND msal.dno = ei.dno
         ORDER BY msal.dno
         ;
+        
