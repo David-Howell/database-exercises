@@ -414,12 +414,7 @@ Create a file named join_exercises.sql to do your work in.
 
  .....
 		Bonus Who is the highest paid employee within each department.*/
-		
-		/*SELECT *
-        FROM
-				(	SELECT *
-					FROM departments  */
-        
+        /*
 		SELECT 	d.dept_name Department,
 				d.dept_no,
 				CONCAT(e.first_name,' ',e.last_name) Employee,
@@ -433,16 +428,21 @@ Create a file named join_exercises.sql to do your work in.
         ON s.emp_no = e.emp_no
         GROUP BY Department, Employee
         ;
-        
+        */
+        (
         SELECT * FROM departments d;
         SELECT * FROM salaries s WHERE s.to_date >NOW();
         SELECT * FROM dept_emp de WHERE de.to_date >NOW();
         SELECT * FROM employees e ;
+        )
         
         SELECT msal.dept Department, CONCAT(ei.efn,' ',ei.eln) Employee, msal.sal Makes
         FROM
         (
-        
+        -- My first sub query JOINs the salaries, dept_emp, and departments TABLES
+        -- We JOIN ON emp_no AND make sure the dept_emp's are current [>NOW()]
+        -- This allows us to easily GROUP BY departments and get the MAX salaries for each
+        -- The first subquery returns a table with 9 rows, 1 for each department
         SELECT de.dept_no dno, MAX(s.salary) sal, d.dept_name dept
         FROM salaries s
         JOIN dept_emp de
@@ -454,6 +454,9 @@ Create a file named join_exercises.sql to do your work in.
         msal
         JOIN
         (
+        -- We then JOIN the First subquery to a second subquery
+        -- The second subquery JOINs salaries, employees, and dept_emp
+        -- From this we select the matching emp_no, salary, employees names and dept_no
         SELECT e.emp_no eno, s.salary sal, e.first_name efn, e.last_name eln, de.dept_no dno
         FROM salaries s
         JOIN employees e
@@ -462,6 +465,7 @@ Create a file named join_exercises.sql to do your work in.
         ON de.emp_no = s.emp_no
         ) 
         ei
+        -- We inner JOIN the subquery's results on matching salarys AND where the dept_no's also match
         ON msal.sal = ei.sal AND msal.dno = ei.dno
         ORDER BY msal.dno
         ;
