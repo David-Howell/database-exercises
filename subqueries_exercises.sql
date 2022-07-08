@@ -23,12 +23,35 @@
 			-- titles —all regardless of current
             -- employees —current only
             -- employees —first name aamod
-            SELECT t.title, t.emp_no
-            FROM titles t
-            WHERE t.emp_no IN (
-							SELECT 
+            
+            SELECT * FROM employees WHERE first_name = 'Aamod';
+            -- 216 rows            
+            SELECT * FROM employees e JOIN dept_emp de ON e.emp_no = de.emp_no AND e.first_name = 'Aamod' AND de.to_date > NOW();
+            -- 168 rows First Name and current | test emp_no's 11973, 15430
+            SELECT * FROM titles WHERE emp_no IN (11973, 15430);
+            
+			SELECT title
+            FROM titles 
+            WHERE emp_no 
+            IN (
+					SELECT e.emp_no 
+                    FROM employees e 
+                    JOIN dept_emp de 
+                    ON e.emp_no = de.emp_no AND e.first_name = 'Aamod' AND de.to_date > NOW())
+			GROUP BY title
+            ORDER BY title
+            ;	
 
-/*			3.	How many people in the employees table are no longer working for the company? Give the answer in a comment in your code.*/
+
+/*			3.	How many people in the employees table are no longer working for the company? 
+					•	Give the answer in a comment in your code.*/
+                    
+			SELECT * FROM employees;
+            SELECT * FROM dept_emp WHERE to_date < NOW();
+            -- Will need not only roles that aren't active currently, but that were also not left for another role...
+            -- Will need DISTINCT or GROUP BY emp_no's probably
+            
+            
 
 /*			4.	Find all the current department managers that are female. List their names in a comment in your code.*/
 
