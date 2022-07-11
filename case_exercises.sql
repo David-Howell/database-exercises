@@ -36,15 +36,16 @@
 											and a new column 'alpha_group' that returns 
 												'A-H', 'I-Q', or 'R-Z' depending on 
                                                 the first letter of their last name.*/
-            SELECT COUNT(*), -- CONCAT(first_name,' ',last_name), 
+            SELECT CONCAT(first_name,' ',last_name), 
 					CASE 
 						WHEN SUBSTR(last_name, 1, 1) BETWEEN 'A' AND 'H' THEN 'A-H'
                         WHEN SUBSTR(last_name, 1, 1) BETWEEN 'I' AND 'Q' THEN 'I-Q'
                         WHEN SUBSTR(last_name, 1, 1) BETWEEN 'R' AND 'Z' THEN 'R-Z'
 					END AS 'alpha_group'
-				FROM employees
-                GROUP BY alpha_group;
-                                                
+				FROM employees;
+                -- GROUP BY alpha_group;
+   
+
 /*			3.	How many employees (current or previous) were born in each decade?*/
 
 			SELECT COUNT(birth_date),
@@ -67,3 +68,19 @@
                 WHERE to_date > NOW(); -- gives us the current salaries with emp_no
                 
 			SELECT * FROM dept_emp LIMIT 10; -- The emp_no lines up with the dept_no but again, we need •current• so to_date > NOW()
+            
+	SELECT ROUND(AVG(salary)) avg_salary, ROUND(STD(salary)) std_dev_salaries,
+		CASE
+			WHEN d.dept_name IN ('Research', 'Development') THEN 'R&D'
+			WHEN d.dept_name IN ('Sales', 'Marketing') THEN 'Sales & Marketing'
+			WHEN d.dept_name IN ('Production', 'Quality Management') THEN 'Prod & QM'
+			WHEN d.dept_name IN ('Finance', 'Human Resources') THEN 'Finanace & HR'
+			ELSE d.dept_name
+		END AS dept_group
+	FROM departments d
+	JOIN dept_emp de USING (dept_no)
+	JOIN salaries s USING (emp_no)
+	WHERE s.to_date > NOW() AND de.to_date > NOW()
+    GROUP BY dept_group
+    ORDER BY avg_salary DESC
+	;
