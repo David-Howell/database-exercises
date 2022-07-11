@@ -60,10 +60,10 @@
 /*			4.	What is the current average salary for each of the following department groups: 
 								R&D, Sales & Marketing, Prod & QM, Finance & HR, Customer Service?*/
                                 
-			SELECT * FROM salaries LIMIT 10;
+			SELECT * FROM salaries LIMIT 10; -- emp_no | salary | from_date | to_date | for •current• need to_date > NOW()
             
             SELECT emp_no, salary
 				FROM salaries
                 WHERE to_date > NOW(); -- gives us the current salaries with emp_no
                 
-			SELECT * FROM dept_emp LIMIT 10;
+			SELECT * FROM dept_emp LIMIT 10; -- The emp_no lines up with the dept_no but again, we need •current• so to_date > NOW()
